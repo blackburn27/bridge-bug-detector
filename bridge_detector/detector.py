@@ -22,9 +22,10 @@ _DEST_CHAIN_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# Tokens that suggest this function is a bridge fulfillment / relay
+# Tokens that suggest this function is a bridge fulfillment / relay.
+# No word boundaries — we want _mint(), fulfillBridge(), _handleMint(), etc.
 _FULFILL_HINT_PATTERNS = re.compile(
-    r"\b(fulfill|mint|relay|execute|claim|redeem|complete|finalize)\b",
+    r"(fulfill|mint|relay|execute|claim|redeem|complete|finalize)",
     re.IGNORECASE,
 )
 
