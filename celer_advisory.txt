@@ -1,0 +1,143 @@
+================================================================================
+GITHUB PRIVATE SECURITY ADVISORY
+Repository: https://github.com/celer-network/sgn-v2-contracts
+================================================================================
+
+TITLE
+-----
+Missing destination-chain binding in PeggedBrc20Bridge idempotency key allows
+cross-chain replay of mint operations
+
+
+SEVERITY
+--------
+High
+
+
+AFFECTED FILE AND FUNCTION
+--------------------------
+contracts/pegged-bridge/PeggedBrc20Bridge.sol
+Function: mint()  (lines ~65–90)
+
+
+DESCRIPTION
+-----------
+The `mint()` function constructs an idempotency key to prevent duplicate mints:
+
+    bytes32 mintId = keccak256(
+        abi.encodePacked(
+            _receiver,
+            _token,
+            _amount,
+            _depositor,
+            _refChainId,
+            _refId,
+            address(this)   // ← contract address, NOT block.chainid
+        )
+    );
+    require(records[mintId] == false, "record exists");
+    records[mintId] = true;
+
+The key includes `address(this)` but omits `block.chainid`. The `records`
+mapping is chain-local storage — it is completely independent on each EVM
+chain where this contract is deployed.
+
+If the contract is deployed at the same address on multiple chains (deterministic
+or same-nonce deployment, which is standard practice for bridge contracts), then
+the same `mintId` value is produced on every chain. A single BTC-chain deposit
+can therefore be accepted by `records[mintId]` independently on every destination
+EVM chain, since each chain's mapping starts empty.
+
+
+ROOT CAUSE — DEVIATION FROM YOUR OWN ESTABLISHED PATTERN
+---------------------------------------------------------
+Every other Celer pegged bridge contract correctly includes both components:
+
+    PeggedTokenBridge.sol:
+      bytes32 domain = keccak256(abi.encodePacked(block.chainid, address(this), "Mint"));
+
+    PeggedTokenBridgeV2.sol:
+      bytes32 domain = keccak256(abi.encodePacked(block.chainid, address(this), "Mint"));
+
+    OriginalTokenVault.sol:
+      bytes32 domain = keccak256(abi.encodePacked(block.chainid, address(this), "Withdraw"));
+
+    OriginalTokenVaultV2.sol:
+      bytes32 domain = keccak256(abi.encodePacked(block.chainid, address(this), "Withdraw"));
+
+PeggedBrc20Bridge.sol is the only contract in the codebase that breaks this
+pattern by omitting `block.chainid`.
+
+
+ATTACK SCENARIO
+---------------
+Prerequisites:
+  - PeggedBrc20Bridge deployed at the same address on N EVM chains (e.g. ETH, BSC, Arbitrum)
+  - Minter role is compromised OR a malicious validator controls the SGN
+
+Steps:
+  1. User deposits 1,000 BRC-20 tokens on the Bitcoin chain.
+  2. Minter calls mint() on Chain A:
+       mintId = keccak256(..., address(this))   →  records[mintId] on Chain A: false → true
+       1,000 tokens minted on Chain A ✓
+  3. Minter calls mint() with identical parameters on Chain B:
+       mintId = keccak256(..., address(this))   →  SAME hash (same address)
+       records[mintId] on Chain B: false → true  (independent storage)
+       1,000 tokens minted on Chain B ✓
+  4. Repeat for every chain where the contract is deployed.
+  5. Result: N × 1,000 tokens minted for a single 1,000 BRC-20 deposit.
+
+The `address(this)` binding only provides chain isolation if deployment
+addresses differ across chains — which cannot be guaranteed and is not the
+intent of the pattern used in every other Celer bridge contract.
+
+
+IMPACT
+------
+- Unbacked token minting across all destination chains
+- Total supply inflation proportional to number of deployment chains
+- Direct financial loss to liquidity providers and token holders
+- Identical in class to the $2B+ category of cross-chain replay exploits
+
+
+REMEDIATION
+-----------
+Add `block.chainid` to the key, matching the pattern used in all other
+Celer bridge contracts:
+
+    // BEFORE (vulnerable)
+    bytes32 mintId = keccak256(
+        abi.encodePacked(_receiver, _token, _amount, _depositor, _refChainId, _refId, address(this))
+    );
+
+    // AFTER (fixed) — matches PeggedTokenBridge / OriginalTokenVault pattern
+    bytes32 mintId = keccak256(
+        abi.encodePacked(block.chainid, _receiver, _token, _amount, _depositor, _refChainId, _refId, address(this))
+    );
+
+This makes each chain's mintId unique at the hash level, ensuring a mint
+authorized on Chain A cannot be replayed on Chain B even if the contract
+address is identical.
+
+
+DISCOVERY METHOD
+----------------
+Found using Bridge Bug Detector — an open-source static analysis tool built
+to detect incomplete idempotency keys in cross-chain bridge contracts.
+The same bug class (CC-1) was independently found and reported in Ripio's
+BridgeDeposit.sol (HackerOne report #3739970, severity 8.9 High).
+
+Tool: https://github.com/blackburn27/bridge-bug-detector
+
+
+DISCLOSURE NOTES
+----------------
+- This finding is submitted as a responsible disclosure / pre-deployment
+  hardening note. We were unable to confirm a live mainnet deployment of
+  PeggedBrc20Bridge at the time of reporting.
+- We were unable to submit via Immunefi due to KYC requirements.
+- We are not requesting a bounty — this is a goodwill disclosure.
+
+Reporter: Prameya Singh Soni (blackburn0027@gmail.com)
+Date: 2026-05-18
+================================================================================
