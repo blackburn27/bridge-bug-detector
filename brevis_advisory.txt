@@ -1,0 +1,145 @@
+================================================================================
+GITHUB PRIVATE SECURITY ADVISORY
+Repository: https://github.com/brevis-network/brevis-contracts
+================================================================================
+
+TITLE
+-----
+Missing destination-chain binding in PegBridge idempotency key allows
+cross-chain replay of mint operations
+
+
+SEVERITY
+--------
+High
+
+
+AFFECTED FILE AND FUNCTION
+--------------------------
+contracts/apps/message-bridge/apps/token-bridge/PegBridge.sol
+Function: _mint()  (lines ~57–72)
+
+
+DESCRIPTION
+-----------
+The `_mint()` function constructs an idempotency key to prevent duplicate mints:
+
+    bytes32 mintId = keccak256(
+        abi.encodePacked(
+            pegToken,
+            amount,
+            mintAccount,
+            depositor,
+            depositId,
+            address(this)   // ← contract address, NOT block.chainid
+        )
+    );
+    require(records[mintId] == false, "record exists");
+    records[mintId] = true;
+
+The key includes `address(this)` but omits `block.chainid`. The `records`
+mapping is chain-local storage — it is completely independent on each EVM
+chain where this contract is deployed.
+
+If PegBridge is deployed at the same address on multiple destination chains
+(standard practice via same-nonce or deterministic deployment), the same
+`mintId` value is produced on every chain. A single vault-chain deposit can
+therefore be accepted by `records[mintId]` independently on every destination
+chain, since each chain's mapping starts empty.
+
+
+ROOT CAUSE — INCONSISTENCY WITH YOUR OWN _burn() FUNCTION
+----------------------------------------------------------
+The `_burn()` function in the same contract correctly includes `block.chainid`:
+
+    // _burn() — CORRECT
+    bytes32 burnId = keccak256(
+        abi.encodePacked(
+            msg.sender,
+            _token,
+            _amount,
+            _toChainId,
+            _withdrawAccount,
+            _nonce,
+            uint64(block.chainid),   // ✓ chain-bound
+            address(this)
+        )
+    );
+
+`_mint()` is the only function in the contract that breaks this pattern by
+omitting `block.chainid`. The inconsistency strongly indicates this is an
+oversight rather than an intentional design choice.
+
+
+ATTACK SCENARIO
+---------------
+Prerequisites:
+  - PegBridge deployed at the same address on N destination chains
+    (e.g. Arbitrum, Base, Linea, Optimism)
+  - A single TokenVault on the source chain
+
+Steps:
+  1. User deposits tokens in TokenVault on the source chain.
+  2. Message bridge delivers mint message to Chain A:
+       mintId = keccak256(..., address(this))  →  records[mintId]: false → true
+       Tokens minted on Chain A ✓
+  3. Same message (or replayed message) delivered to Chain B:
+       mintId = keccak256(..., address(this))  →  SAME hash (same address)
+       records[mintId] on Chain B: false → true  (independent storage)
+       Tokens minted on Chain B ✓
+  4. Repeat for every chain where PegBridge is deployed.
+  5. Result: N × tokens minted for a single deposit.
+
+The `address(this)` binding only provides chain isolation if deployment
+addresses differ across chains — which is not guaranteed and is contrary
+to standard multi-chain deployment practice.
+
+
+IMPACT
+------
+- Unbacked token minting across all destination chains
+- Total supply inflation proportional to number of deployment chains
+- Direct financial loss to users and liquidity providers
+- Identical in class to the $2B+ category of cross-chain replay exploits
+
+
+REMEDIATION
+-----------
+Add `block.chainid` to the mint key, matching the pattern already used
+in `_burn()`:
+
+    // BEFORE (vulnerable)
+    bytes32 mintId = keccak256(
+        abi.encodePacked(pegToken, amount, mintAccount, depositor, depositId, address(this))
+    );
+
+    // AFTER (fixed) — matches _burn() pattern
+    bytes32 mintId = keccak256(
+        abi.encodePacked(uint64(block.chainid), pegToken, amount, mintAccount, depositor, depositId, address(this))
+    );
+
+This makes each chain's mintId unique at the hash level, ensuring a mint
+authorized on Chain A cannot be replayed on Chain B even if the contract
+address is identical.
+
+
+DISCOVERY METHOD
+----------------
+Found using Bridge Bug Detector — an open-source static analysis tool built
+to detect incomplete idempotency keys in cross-chain bridge contracts.
+
+Tool: https://github.com/blackburn27/bridge-bug-detector
+
+
+DISCLOSURE NOTES
+----------------
+- This finding is submitted as a responsible disclosure / pre-deployment
+  hardening note. PegBridge appears to be testnet-only at the time of
+  reporting (deployed on bscTest and Goerli, not mainnet).
+- No Immunefi or bug bounty program was found for Brevis Network.
+- We are not requesting a bounty — this is a goodwill disclosure.
+- The SlowMist audit on file did not catch this inconsistency.
+
+Reporter: Prameya Singh Soni (blackburn0027@gmail.com)
+Date: 2026-05-18
+================================================================================

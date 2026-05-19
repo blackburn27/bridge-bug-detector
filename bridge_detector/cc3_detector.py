@@ -51,9 +51,12 @@ _DOMAIN_SEP_RE = re.compile(
     re.IGNORECASE,
 )
 
-# block.chainid or a chainId / chain_id variable in the hash arguments
+# block.chainid or a chainId / chain_id / networkId / blockchainId variable in the hash arguments.
+# Custom deployment-time constants like blockchainId, networkId, fxBridgeId are accepted as
+# chain-binding equivalents — they're set per deployment and serve the same purpose.
 _CHAIN_ID_RE = re.compile(
-    r"\b(block\.chainid|chainId|chain_id|chainid|getChainId)\b",
+    r"\b(block\.chainid|chainId|chain_id|chainid|getChainId"
+    r"|blockchainId|networkId|_networkId|fxBridgeId|_fxBridgeId|bridgeId|_bridgeId)\b",
     re.IGNORECASE,
 )
 
@@ -72,7 +75,15 @@ _EIP712_INHERIT_RE = re.compile(r"\bEIP712\b", re.IGNORECASE)
 
 _SIG_FUNC_RE = re.compile(
     r"(mint|claim|redeem|fulfill|relay|execute|bridge|withdraw|wrap"
-    r"|transfer|deliver|process|receive|finalize|complete)",
+    r"|transfer|deliver|process|receive|finalize|complete|unlock|submit|verify|burn)",
+    re.IGNORECASE,
+)
+
+# Calls to internal sig-verification helpers: recoverSigner, _recover, verifySig, checkSig, etc.
+_SIG_HELPER_RE = re.compile(
+    r"\b(recoverSigner|_recoverSigner|recoverAddress|getSigner|_getSigner"
+    r"|verifySig|_verifySig|checkSignature|_checkSignature|verifySignature"
+    r"|checkSig|_checkSig|_verify|verifyAndRecover)\s*\(",
     re.IGNORECASE,
 )
 
@@ -93,7 +104,11 @@ _ENCODE_TYPED_RE = re.compile(
 
 
 def _has_sig_verification(body: str) -> bool:
-    return bool(_ECRECOVER_RE.search(body) or _ECDSA_RE.search(body))
+    return bool(
+        _ECRECOVER_RE.search(body)
+        or _ECDSA_RE.search(body)
+        or _SIG_HELPER_RE.search(body)
+    )
 
 
 def _has_safe_domain_sep(body: str) -> bool:

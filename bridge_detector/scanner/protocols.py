@@ -20,6 +20,82 @@ class Protocol:
 # Priority tier: actively maintained, large TVL, no KYC wall on disclosures
 # ---------------------------------------------------------------------------
 
+PROTOCOLS_TIER2: list[Protocol] = [
+    # ---- Confirmed working repos with correct paths -------------------------
+    Protocol(
+        name="Multichain (Anyswap)",
+        repo_url="https://github.com/anyswap/anyswap-v1-core",
+        src_paths=["contracts"],
+        notes="Exploited 2023 $130M — old code still instructive",
+    ),
+    Protocol(
+        name="Symbiosis Finance",
+        repo_url="https://github.com/symbiosis-finance/contracts",
+        src_paths=["src", "src_archive"],
+        notes="Cross-chain AMM bridge, smaller team",
+    ),
+    Protocol(
+        name="Rubic Exchange",
+        repo_url="https://github.com/Cryptorubic/multi-proxy-rubic",
+        src_paths=["src"],
+        notes="Multi-chain swap bridge",
+    ),
+    Protocol(
+        name="Hashflow",
+        repo_url="https://github.com/hashflownetwork/x-protocol",
+        src_paths=["evm/contracts"],
+        notes="Cross-chain RFQ bridge",
+    ),
+    Protocol(
+        name="Allbridge Core",
+        repo_url="https://github.com/allbridge-io/allbridge-core-evm-contracts",
+        src_paths=["contracts"],
+        notes="Multi-chain bridge, smaller team",
+    ),
+    Protocol(
+        name="Router Protocol V2",
+        repo_url="https://github.com/router-protocol/router-intents-eoa-adapters",
+        src_paths=["evm/contracts"],
+        notes="Router intent adapters, newer codebase",
+    ),
+    Protocol(
+        name="Bungee Refuel",
+        repo_url="https://github.com/SocketDotTech/bungee-contracts-public",
+        src_paths=["src"],
+        notes="Socket/Bungee native gas refuel contracts",
+    ),
+    Protocol(
+        name="Orbiter Finance",
+        repo_url="https://github.com/Orbiter-Finance/OB_ReturnCabin",
+        src_paths=["contracts"],
+        notes="ZK-based cross-rollup bridge, smaller team",
+    ),
+    Protocol(
+        name="MAP Protocol",
+        repo_url="https://github.com/mapprotocol/map-contracts",
+        src_paths=["mos/evmv2", "mos/evm"],
+        notes="Omnichain protocol, MOS messenger contracts",
+    ),
+    Protocol(
+        name="Flare Network",
+        repo_url="https://github.com/flare-foundation/flare-smart-contracts-v2",
+        src_paths=["contracts"],
+        notes="Cross-chain data/bridge protocol",
+    ),
+    Protocol(
+        name="Rarimo Bridge",
+        repo_url="https://github.com/rarimo/evm-bridge-contracts",
+        src_paths=["contracts"],
+        notes="Identity-focused cross-chain bridge",
+    ),
+    Protocol(
+        name="Meson Protocol",
+        repo_url="https://github.com/MesonFi/meson-to",
+        src_paths=["contracts"],
+        notes="Stablecoin cross-chain swaps, smaller TVL",
+    ),
+]
+
 PROTOCOLS: list[Protocol] = [
     Protocol(
         name="Across Protocol",

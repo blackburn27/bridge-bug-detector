@@ -1,0 +1,89 @@
+{
+  "total_findings": 0,
+  "protocols": [
+    {
+      "name": "Multichain (Anyswap)",
+      "repo": "https://github.com/anyswap/anyswap-v1-core",
+      "files_scanned": 99,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Symbiosis Finance",
+      "repo": "https://github.com/symbiosis-finance/contracts",
+      "files_scanned": 92,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Rubic Exchange",
+      "repo": "https://github.com/Cryptorubic/multi-proxy-rubic",
+      "files_scanned": 54,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Hashflow",
+      "repo": "https://github.com/hashflownetwork/x-protocol",
+      "files_scanned": 35,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Allbridge Core",
+      "repo": "https://github.com/allbridge-io/allbridge-core-evm-contracts",
+      "files_scanned": 48,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Router Protocol V2",
+      "repo": "https://github.com/router-protocol/router-intents-eoa-adapters",
+      "files_scanned": 222,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Bungee Refuel",
+      "repo": "https://github.com/SocketDotTech/bungee-contracts-public",
+      "files_scanned": 87,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Orbiter Finance",
+      "repo": "https://github.com/Orbiter-Finance/OB_ReturnCabin",
+      "files_scanned": 38,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "MAP Protocol",
+      "repo": "https://github.com/mapprotocol/map-contracts",
+      "files_scanned": 47,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Flare Network",
+      "repo": "https://github.com/flare-foundation/flare-smart-contracts-v2",
+      "files_scanned": 170,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Rarimo Bridge",
+      "repo": "https://github.com/rarimo/evm-bridge-contracts",
+      "files_scanned": 39,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Meson Protocol",
+      "repo": "https://github.com/MesonFi/meson-to",
+      "files_scanned": 3,
+      "skipped": false,
+      "findings": []
+    }
+  ]
+}

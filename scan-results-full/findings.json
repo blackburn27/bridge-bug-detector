@@ -1,0 +1,302 @@
+{
+  "total_findings": 2,
+  "protocols": [
+    {
+      "name": "Across Protocol",
+      "repo": "https://github.com/across-protocol/contracts",
+      "files_scanned": 199,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Hop Protocol",
+      "repo": "https://github.com/hop-protocol/contracts",
+      "files_scanned": 82,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Stargate Finance",
+      "repo": "https://github.com/stargate-protocol/stargate",
+      "files_scanned": 19,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-2",
+          "severity": "INFORMATIONAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/stargate-protocol__stargate/contracts/OmnichainFungibleToken.sol",
+          "function": "lzReceive",
+          "line": 89,
+          "key_variable": "_nonce",
+          "guard_mapping": "(delegated to caller)",
+          "key_args": [
+            "uint64 _nonce"
+          ],
+          "missing_fields": [
+            "contract-level mapping for _nonce (currently relies on trusted caller for replay protection)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stargate v2",
+      "repo": "https://github.com/stargate-protocol/stargate-v2",
+      "files_scanned": 113,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Connext",
+      "repo": "https://github.com/connext/monorepo",
+      "files_scanned": 151,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Synapse Protocol",
+      "repo": "https://github.com/synapsecns/synapse-contracts",
+      "files_scanned": 232,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Celer cBridge",
+      "repo": "https://github.com/celer-network/sgn-v2-contracts",
+      "files_scanned": 128,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-1",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/celer-network__sgn-v2-contracts/contracts/pegged-bridge/PeggedBrc20Bridge.sol",
+          "function": "mint",
+          "line": 68,
+          "key_variable": "mintId",
+          "guard_mapping": "records",
+          "key_args": [
+            "_receiver",
+            "_token",
+            "_amount",
+            "_depositor",
+            "_refChainId",
+            "_refId",
+            "address(this)"
+          ],
+          "missing_fields": [
+            "destChainId / block.chainid"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deBridge",
+      "repo": "https://github.com/debridge-finance/debridge-contracts-v1",
+      "files_scanned": 43,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Socket / Bungee",
+      "repo": "https://github.com/SocketDotTech/socket-DL",
+      "files_scanned": 60,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Axelar Gateway",
+      "repo": "https://github.com/axelarnetwork/axelar-cgp-solidity",
+      "files_scanned": 43,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Hyperlane",
+      "repo": "https://github.com/hyperlane-xyz/hyperlane-monorepo",
+      "files_scanned": 234,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Wormhole",
+      "repo": "https://github.com/wormhole-foundation/wormhole",
+      "files_scanned": 60,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Wormhole NTT",
+      "repo": "https://github.com/wormhole-foundation/native-token-transfers",
+      "files_scanned": 36,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "LayerZero v1",
+      "repo": "https://github.com/LayerZero-Labs/LayerZero",
+      "files_scanned": 37,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "LayerZero v2",
+      "repo": "https://github.com/LayerZero-Labs/LayerZero-v2",
+      "files_scanned": 206,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Chainlink CCIP",
+      "repo": "https://github.com/smartcontractkit/ccip",
+      "files_scanned": 1036,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "dln.trade (DLN)",
+      "repo": "https://github.com/debridge-finance/dln-contracts",
+      "files_scanned": 26,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Router Protocol CrossTalk",
+      "repo": "https://github.com/router-protocol/router-crosstalk-openzeppelin-standards",
+      "files_scanned": 20,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Li.Fi Contracts",
+      "repo": "https://github.com/lifinance/contracts",
+      "files_scanned": 138,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Biconomy Hyphen",
+      "repo": "https://github.com/bcnmy/hyphen-contract",
+      "files_scanned": 77,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Optimism Standard Bridge",
+      "repo": "https://github.com/ethereum-optimism/optimism",
+      "files_scanned": 46,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Arbitrum Bridge",
+      "repo": "https://github.com/OffchainLabs/nitro-contracts",
+      "files_scanned": 141,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Polygon zkEVM Bridge",
+      "repo": "https://github.com/0xPolygonHermez/zkevm-contracts",
+      "files_scanned": 135,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Scroll Bridge",
+      "repo": "https://github.com/scroll-tech/scroll",
+      "files_scanned": 1,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "zkSync Bridge",
+      "repo": "https://github.com/matter-labs/era-contracts",
+      "files_scanned": 236,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Multichain (Anyswap)",
+      "repo": "https://github.com/anyswap/anyswap-v1-core",
+      "files_scanned": 99,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Symbiosis Finance",
+      "repo": "https://github.com/symbiosis-finance/contracts",
+      "files_scanned": 92,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Rubic Exchange",
+      "repo": "https://github.com/Cryptorubic/multi-proxy-rubic",
+      "files_scanned": 54,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Hashflow",
+      "repo": "https://github.com/hashflownetwork/x-protocol",
+      "files_scanned": 35,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Allbridge Core",
+      "repo": "https://github.com/allbridge-io/allbridge-core-evm-contracts",
+      "files_scanned": 48,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Router Protocol V2",
+      "repo": "https://github.com/router-protocol/router-intents-eoa-adapters",
+      "files_scanned": 222,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Bungee Refuel",
+      "repo": "https://github.com/SocketDotTech/bungee-contracts-public",
+      "files_scanned": 87,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Orbiter Finance",
+      "repo": "https://github.com/Orbiter-Finance/OB_ReturnCabin",
+      "files_scanned": 38,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "MAP Protocol",
+      "repo": "https://github.com/mapprotocol/map-contracts",
+      "files_scanned": 47,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Flare Network",
+      "repo": "https://github.com/flare-foundation/flare-smart-contracts-v2",
+      "files_scanned": 170,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Rarimo Bridge",
+      "repo": "https://github.com/rarimo/evm-bridge-contracts",
+      "files_scanned": 39,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Meson Protocol",
+      "repo": "https://github.com/MesonFi/meson-to",
+      "files_scanned": 3,
+      "skipped": false,
+      "findings": []
+    }
+  ]
+}
