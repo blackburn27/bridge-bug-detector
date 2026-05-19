@@ -87,13 +87,22 @@ def _is_fulfillment_function(func: FunctionInfo) -> bool:
     return bool(_FULFILL_HINT_PATTERNS.search(func.name))
 
 
+def _mapping_is_written(func: FunctionInfo, mapping_name: str) -> bool:
+    """
+    Return True if the function writes to the mapping (e.g. mapping[key] = true).
+    A read-only mapping check is a whitelist/allowlist, not a replay guard.
+    """
+    return bool(re.search(rf"\b{re.escape(mapping_name)}\s*\[[^\]]+\]\s*=", func.body))
+
+
 def _key_is_guarded(func: FunctionInfo, key_var: str) -> Optional[str]:
     """
     Return the guard mapping name if key_var is used to index into a replay guard,
-    otherwise None.
+    otherwise None. Requires the mapping to also be written in the same function
+    to distinguish replay guards from read-only whitelists/allowlists.
     """
     for guard in func.replay_guards:
-        if guard.key_var == key_var:
+        if guard.key_var == key_var and _mapping_is_written(func, guard.mapping_name):
             return guard.mapping_name
     return None
 
