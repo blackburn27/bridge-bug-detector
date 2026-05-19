@@ -142,9 +142,11 @@ def analyze_function(func: FunctionInfo, file_path: str) -> list[Finding]:
 
 def analyze_source(source: str, file_path: str) -> list[Finding]:
     from .cc2_detector import analyze_function_cc2
+    from .cc3_detector import analyze_function_cc3
     functions = extract_functions(source)
     findings = []
     for func in functions:
         findings.extend(analyze_function(func, file_path))
         findings.extend(analyze_function_cc2(func, file_path))
+        findings.extend(analyze_function_cc3(func, file_path, source))
     return findings

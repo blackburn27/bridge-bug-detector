@@ -35,6 +35,7 @@ def print_terminal(findings: list[Finding], out: TextIO = sys.stdout, color: boo
     _IMPACT = {
         "CC-1": "Incomplete key → same fulfillment accepted on every dest chain → multi-mint",
         "CC-2": "No txid guard → same source tx replayed unlimited times → unbacked mint",
+        "CC-3": "No chainId in signed digest → signature from Chain A replays on Chain B → unauthorized mint",
     }
 
     for f in findings:
