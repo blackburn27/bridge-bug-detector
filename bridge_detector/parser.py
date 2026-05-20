@@ -32,6 +32,7 @@ class FunctionInfo:
     typed_params: list[tuple[str, str]]  # (type, name) pairs
     body: str
     start_line: int
+    modifiers: str = ""             # text between closing ) and opening { (visibility, modifiers)
     encoded_keys: list[EncodedKey] = field(default_factory=list)
     replay_guards: list[ReplayGuard] = field(default_factory=list)
 
@@ -202,6 +203,7 @@ def extract_functions(source: str) -> list[FunctionInfo]:
             typed_params=typed_params,
             body=body,
             start_line=start_line,
+            modifiers=between,
         )
 
         # Find encoded keys inside the body — named-variable form

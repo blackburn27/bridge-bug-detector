@@ -145,6 +145,11 @@ def analyze_source(source: str, file_path: str) -> list[Finding]:
     from .cc3_detector import analyze_function_cc3
     from .cc4_detector import analyze_function_cc4
     from .cc5_detector import analyze_function_cc5
+    from .cc6_detector import analyze_function_cc6
+    from .cc7_detector import analyze_function_cc7
+    from .cc8_detector import analyze_function_cc8
+    from .cc9_detector import analyze_function_cc9
+    from .cc10_detector import analyze_function_cc10
     functions = extract_functions(source)
     findings = []
     for func in functions:
@@ -153,4 +158,9 @@ def analyze_source(source: str, file_path: str) -> list[Finding]:
         findings.extend(analyze_function_cc3(func, file_path, source))
         findings.extend(analyze_function_cc4(func, file_path))
         findings.extend(analyze_function_cc5(func, file_path))
+        findings.extend(analyze_function_cc6(func, file_path))
+        findings.extend(analyze_function_cc7(func, file_path))
+        findings.extend(analyze_function_cc8(func, file_path))
+        findings.extend(analyze_function_cc9(func, file_path))
+        findings.extend(analyze_function_cc10(func, file_path))
     return findings
