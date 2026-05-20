@@ -66,12 +66,32 @@ _AMOUNT_PARAM_RE = re.compile(
 
 _PAYABLE_RE = re.compile(r"\bpayable\b")
 
+# Matches a transferFrom / safeTransferFrom call including its arguments
+_TRANSFER_FROM_CALL_RE = re.compile(
+    r"\b(safeTransferFrom|transferFrom)\s*\([^)]*\)",
+    re.IGNORECASE,
+)
+
+
 def _is_payable(func: FunctionInfo) -> bool:
     """Check for payable keyword in the modifier area (between params and body)."""
     return bool(_PAYABLE_RE.search(func.modifiers))
 
+
 def _has_msg_value(body: str) -> bool:
     return bool(_MSG_VALUE_RE.search(body))
+
+
+def _amount_only_in_transfer(body: str, amount_param: str) -> bool:
+    """
+    Return True if `amount_param` appears in the body only inside
+    transferFrom / safeTransferFrom argument lists — i.e. the function is
+    ERC20-only and the payable keyword is incidental.
+    After stripping those calls, if amount_param is still present it is used
+    for native-ETH accounting (direct balance credit, _mint, etc.).
+    """
+    stripped = _TRANSFER_FROM_CALL_RE.sub("", body)
+    return amount_param not in stripped
 
 
 def _has_value_equality_check(body: str) -> bool:
@@ -101,6 +121,11 @@ def analyze_function_cc7(func: FunctionInfo, file_path: str) -> list[Finding]:
 
     amount_param = _has_amount_param(func)
     if amount_param is None:
+        return findings
+
+    # Suppress if amount only appears inside transferFrom/safeTransferFrom args —
+    # that means the function is purely ERC20 and the payable is incidental.
+    if _amount_only_in_transfer(func.body, amount_param):
         return findings
 
     # Safe if there's an explicit equality/bound check

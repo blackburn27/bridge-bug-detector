@@ -68,9 +68,18 @@ _USER_TARGET_CALL_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Empty calldata — plain ETH transfer: .call{value: x}("") or .call("")
+# These are NOT calldata injection (no user payload forwarded)
+_EMPTY_CALLDATA_CALL_RE = re.compile(
+    r'\.\s*call\s*(\{[^}]*\})?\s*\(\s*""\s*\)',
+    re.IGNORECASE,
+)
+
 
 def _has_external_call(body: str) -> bool:
-    return bool(_EXTERNAL_CALL_RE.search(body))
+    # Strip empty-calldata ETH transfer calls before checking
+    stripped = _EMPTY_CALLDATA_CALL_RE.sub("", body)
+    return bool(_EXTERNAL_CALL_RE.search(stripped))
 
 
 def _has_allowlist_check(body: str) -> bool:
@@ -85,8 +94,10 @@ def _call_target_is_param(body: str, params: list[str]) -> bool:
     """
     Return True if the target of a .call() is one of the function parameters,
     meaning it is user-supplied rather than a hardcoded contract reference.
+    Empty-calldata ETH transfers (.call{value}("")) are excluded.
     """
-    for m in _USER_TARGET_CALL_RE.finditer(body):
+    stripped = _EMPTY_CALLDATA_CALL_RE.sub("", body)
+    for m in _USER_TARGET_CALL_RE.finditer(stripped):
         target_var = m.group(1)
         if target_var in params:
             return True

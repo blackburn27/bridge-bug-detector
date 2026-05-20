@@ -48,7 +48,9 @@ _ZERO_ADDR_GUARD_RE = re.compile(
     r"|address\s*\(\s*0\s*\)\s*!="         # address(0) != token
     r"|address\s*\(\s*0\s*\)\s*=="
     r"|\bZERO_ADDRESS\b"
-    r"|\baddress\s*\(\s*0\s*\)\b",
+    r"|\baddress\s*\(\s*0\s*\)\b"
+    # Hex literal zero address (0x000...0)
+    r"|0x0{40}\b",
     re.IGNORECASE,
 )
 

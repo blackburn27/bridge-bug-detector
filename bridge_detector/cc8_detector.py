@@ -50,13 +50,22 @@ _CLAIM_FUNC_RE = re.compile(
 _PROOF_CONSUMED_RE = re.compile(
     r"\b(usedProofs|processedProofs|claimedLeaves|processedLeaves|usedLeaves"
     r"|nullifierHashes|nullifiers|spentNullifiers|proofUsed|usedRoots"
-    r"|processedMessages|executedMessages|claimedMessages)\s*\[",
+    r"|processedMessages|executedMessages|claimedMessages"
+    # User-keyed claim guards: claimedTo[addr], isClaimed[x], vestings[x]
+    r"|claimedTo|isClaimed|hasClaimed|isRedeemed|hasRedeemed|isExecuted"
+    r"|vestingCreated|vestings|vesting)\s*\[",
     re.IGNORECASE,
 )
 
-# Also catch generic mapping writes that include 'leaf' or 'proof' variable names
+# Generic mapping writes using a leaf/proof/nullifier/index as key
 _GENERIC_PROOF_MARK_RE = re.compile(
-    r"\b\w+\s*\[\s*(leaf|proofHash|nullifier|messageHash|claimId)\s*\]\s*=",
+    r"\b\w+\s*\[\s*(leaf|proofHash|nullifier|messageHash|claimId|index)\s*\]\s*=",
+    re.IGNORECASE,
+)
+
+# Broader: claimed[x] = true / redeemed[x] = true patterns
+_GENERIC_CLAIM_WRITE_RE = re.compile(
+    r"\b(claimed|redeemed|processed|fulfilled|executed)\s*\[\s*\w+\s*\]\s*=\s*(true|false)",
     re.IGNORECASE,
 )
 
@@ -66,7 +75,11 @@ def _has_merkle_verify(body: str) -> bool:
 
 
 def _has_proof_consumed_guard(body: str) -> bool:
-    return bool(_PROOF_CONSUMED_RE.search(body) or _GENERIC_PROOF_MARK_RE.search(body))
+    return bool(
+        _PROOF_CONSUMED_RE.search(body)
+        or _GENERIC_PROOF_MARK_RE.search(body)
+        or _GENERIC_CLAIM_WRITE_RE.search(body)
+    )
 
 
 def _is_claim_function(func: FunctionInfo) -> bool:
