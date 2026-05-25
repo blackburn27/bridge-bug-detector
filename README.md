@@ -9,20 +9,26 @@ Built from a real [HackerOne High severity finding (CC-1)](https://hackerone.com
 ### CC-1 — Missing destination chain in idempotency key
 Bridge fulfillment functions use `keccak256(abi.encodePacked(...))` as a replay guard, but omit `block.chainid` from the key. Since replay guard mappings are chain-local storage, the same fulfillment hash is accepted independently on every destination chain — one source-chain burn triggers N mints.
 
-**Found in the wild**: Ripio `BridgeDeposit.sol`, Celer `PeggedBrc20Bridge.sol`
+**Found in the wild**: Ripio `BridgeDeposit.sol`, Celer `PeggedBrc20Bridge.sol`, Brevis `PegBridge.sol`
 
 ### CC-2 — Missing source-tx idempotency guard
 Bridge mint functions accept a source-chain transaction identifier (`txid`, `nonce`, `refId`, etc.) as a parameter but never store it in a mapping — the identifier is only emitted in an event. The same txid can be submitted unlimited times to mint unbacked tokens.
 
 **Found in the wild**: Adshares `WrappedADS` ([$628K exploit, 2023](https://cryptoadventure.com/adshares-bridge-exploit-drains-about-628k-after-fake-wads-mint/))
 
-## Mass scan results — 25 protocols, 3,199+ Solidity files
+## Mass scan results — 65 protocols, 5,000+ Solidity files
 
 | Finding | Protocol | File | Severity |
 |---------|----------|------|----------|
 | CC-1 | Celer cBridge | `PeggedBrc20Bridge.sol` | **HIGH** |
+| CC-1 | Brevis Network | `PegBridge.sol` | **HIGH** |
 
-All other protocols scanned clean or use trusted-caller architectures (LayerZero, Axelar) that delegate replay protection to the messaging endpoint.
+All other protocols scanned clean or use trusted-caller architectures (LayerZero, Axelar, Wormhole) that delegate replay protection to the messaging endpoint.
+
+Scans are organized in four tiers by protocol TVL and audit coverage:
+- **Tier 1–2** (25 protocols): Across, Hop, Stargate, Connext, Synapse, Celer, LayerZero, Chainlink CCIP, Wormhole, Arbitrum, zkSync, Polygon, Optimism, and more
+- **Tier 3** (20 protocols): Gnosis Omnibridge/AMB, Taiko, Linea, Blast, zkLink Nova, Sygma, XY Finance, Rango, Gravity Bridge, Kroma, and more
+- **Tier 4** (20 protocols): Scroll, Frax Ferry, Metis, Boba, StarkNet L1, Lisk, Hashi, Telepathy, Holograph, Router Nitro, and more
 
 ## Installation
 
@@ -88,8 +94,9 @@ bridge-detect --mass-scan
 
 ## Disclosures
 
-- **Ripio** (HackerOne #3739970) — CC-1 in `BridgeDeposit.sol`, severity 8.9 High, submitted 2026-05-18
+- **Ripio** (HackerOne #3739970) — CC-1 in `BridgeDeposit.sol`, CVSS 8.9, submitted 2026-05-18 · marked Informational by program
 - **Celer cBridge** (GitHub Security Advisory) — CC-1 in `PeggedBrc20Bridge.sol`, submitted 2026-05-18
+- **Brevis Network** (GitHub Security Advisory) — CC-1 in `PegBridge.sol`, submitted 2026-05-18 · goodwill disclosure, no bounty program
 
 ---
 

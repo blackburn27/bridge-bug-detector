@@ -1,0 +1,768 @@
+{
+  "total_findings": 40,
+  "protocols": [
+    {
+      "name": "Gnosis Omnibridge",
+      "repo": "https://github.com/omni/omnibridge",
+      "files_scanned": 73,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/omni__omnibridge/contracts/mocks/AMBMock.sol",
+          "function": "executeMessageCall",
+          "line": 21,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_contract",
+            "_sender",
+            "_data",
+            "_messageId",
+            "_gas"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gnosis AMB Bridge",
+      "repo": "https://github.com/omni/tokenbridge-contracts",
+      "files_scanned": 129,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/omni__tokenbridge-contracts/contracts/libraries/SafeERC20.sol",
+          "function": "safeTransferFrom",
+          "line": 38,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-5",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/omni__tokenbridge-contracts/contracts/upgradeable_contracts/arbitrary_message/BasicForeignAMB.sol",
+          "function": "_executeMessage",
+          "line": 98,
+          "key_variable": "sender",
+          "guard_mapping": "(none \u2014 source not bound)",
+          "key_args": [
+            "sender"
+          ],
+          "missing_fields": [
+            "source address `sender` never validated"
+          ]
+        },
+        {
+          "rule": "CC-5",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/omni__tokenbridge-contracts/contracts/upgradeable_contracts/arbitrary_message/MessageProcessor.sol",
+          "function": "processMessage",
+          "line": 182,
+          "key_variable": "_sourceChainId, _sender",
+          "guard_mapping": "(none \u2014 source not bound)",
+          "key_args": [
+            "_sourceChainId",
+            "_sender"
+          ],
+          "missing_fields": [
+            "source chain `_sourceChainId` never validated",
+            "source address `_sender` never validated"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pNetwork v3",
+      "repo": "https://github.com/pnetwork-association/pnetwork-v3-monorepo",
+      "files_scanned": 39,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Taiko Bridge",
+      "repo": "https://github.com/taikoxyz/taiko-mono",
+      "files_scanned": 144,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Linea Bridge",
+      "repo": "https://github.com/Consensys/linea-contracts",
+      "files_scanned": 86,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Consensys__linea-contracts/contracts/tokenBridge/TokenBridge.sol",
+          "function": "bridgeToken",
+          "line": 151,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Consensys__linea-contracts/contracts/tokenBridge/TokenBridge.sol",
+          "function": "bridgeToken",
+          "line": 151,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Consensys__linea-contracts/contracts/tokenBridge/TokenBridge.sol",
+          "function": "bridgeTokenWithPermit",
+          "line": 212,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Consensys__linea-contracts/contracts/tokenBridge/BridgedToken.sol",
+          "function": "mint",
+          "line": 48,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Consensys__linea-contracts/contracts/tokenBridge/mocks/MockMessageService.sol",
+          "function": "sendMessage",
+          "line": 10,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_to",
+            "_fee",
+            "_calldata"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Blast Bridge",
+      "repo": "https://github.com/blast-io/blast",
+      "files_scanned": 137,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/governance/MintManager.sol",
+          "function": "mint",
+          "line": 42,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/governance/GovernanceToken.sol",
+          "function": "mint",
+          "line": 22,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/universal/OptimismMintableERC20.sol",
+          "function": "mint",
+          "line": 64,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/mainnet-bridge/L1BlastBridge.sol",
+          "function": "finalizeBridgeETH",
+          "line": 151,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/L1/L1StandardBridge.sol",
+          "function": "finalizeBridgeETH",
+          "line": 168,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/L1/OptimismPortal.sol",
+          "function": "depositTransaction",
+          "line": 411,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/blast-io__blast/blast-optimism/packages/contracts-bedrock/src/L2/L2StandardBridge.sol",
+          "function": "finalizeDeposit",
+          "line": 143,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zkLink Nova",
+      "repo": "https://github.com/zkLinkProtocol/zklink-contracts",
+      "files_scanned": 75,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/zkLinkProtocol__zklink-contracts/contracts/ZkLink.sol",
+          "function": "deposit",
+          "line": 644,
+          "key_variable": "_tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_tokenAddress"
+          ],
+          "missing_fields": [
+            "require(_tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/zkLinkProtocol__zklink-contracts/contracts/dev-contracts/FaucetToken.sol",
+          "function": "mintTo",
+          "line": 20,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/zkLinkProtocol__zklink-contracts/contracts/gateway/linea/LineaL1Gateway.sol",
+          "function": "depositERC20",
+          "line": 48,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/zkLinkProtocol__zklink-contracts/contracts/gateway/zksync/ZkSyncL1Gateway.sol",
+          "function": "depositERC20",
+          "line": 97,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/zkLinkProtocol__zklink-contracts/contracts/gateway/zksync/ZkSyncL1Gateway.sol",
+          "function": "depositERC20",
+          "line": 97,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sygma Protocol",
+      "repo": "https://github.com/sygmaprotocol/sygma-solidity",
+      "files_scanned": 52,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/sygmaprotocol__sygma-solidity/contracts/ERC721Safe.sol",
+          "function": "lockERC721",
+          "line": 22,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/sygmaprotocol__sygma-solidity/contracts/TestContracts.sol",
+          "function": "execute",
+          "line": 83,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "data",
+            "to",
+            "sender"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/sygmaprotocol__sygma-solidity/contracts/adapters/GmpTransferAdapter.sol",
+          "function": "deposit",
+          "line": 61,
+          "key_variable": "tokenAmount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "tokenAmount"
+          ],
+          "missing_fields": [
+            "require(msg.value == tokenAmount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "XY Finance",
+      "repo": "https://github.com/XY-Finance/xy-finance-contracts",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Rango Exchange",
+      "repo": "https://github.com/rango-exchange/rango-contracts-v2",
+      "files_scanned": 150,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/utils/SampleDApp.sol",
+          "function": "sendTokenWithMessageThroughRango",
+          "line": 55,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "rangoContractToCall",
+            "token",
+            "amount",
+            "rangoCallData"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/RangoSymbiosisMiddleware.sol",
+          "function": "fetchTokenFromRouterAndRefund",
+          "line": 67,
+          "key_variable": "_tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_tokenAddress"
+          ],
+          "missing_fields": [
+            "require(_tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/cbridge/RangoCBridgeMiddleware.sol",
+          "function": "executeMessageWithTransferRefund",
+          "line": 76,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/cbridge/RangoCBridgeMiddleware.sol",
+          "function": "executeMessageWithTransfer",
+          "line": 123,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/cbridge/RangoCBridgeMiddleware.sol",
+          "function": "executeMessageWithTransferFallback",
+          "line": 149,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/cbridge/RangoCBridgeMiddleware.sol",
+          "function": "doSend",
+          "line": 196,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-5",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/rango-exchange__rango-contracts-v2/contracts/facets/bridges/cbridge/im/message/framework/MessageReceiverApp.sol",
+          "function": "executeMessage",
+          "line": 78,
+          "key_variable": "_srcChainId, _sender",
+          "guard_mapping": "(none \u2014 source not bound)",
+          "key_args": [
+            "_srcChainId",
+            "_sender"
+          ],
+          "missing_fields": [
+            "source chain `_srcChainId` never validated",
+            "source address `_sender` never validated"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gravity Bridge",
+      "repo": "https://github.com/Gravity-Bridge/Gravity-Bridge",
+      "files_scanned": 14,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-3",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Gravity-Bridge__Gravity-Bridge/solidity/contracts/Gravity.sol",
+          "function": "verifySig",
+          "line": 153,
+          "key_variable": "hash",
+          "guard_mapping": "ECDSA.recover / ecrecover",
+          "key_args": [
+            "\"\\x19Ethereum Signed Message:\\n32\"",
+            "_theHash"
+          ],
+          "missing_fields": [
+            "block.chainid in signed message digest"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kroma Bridge",
+      "repo": "https://github.com/wemade-kroma/kroma",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Mantle Bridge",
+      "repo": "https://github.com/mantlenetworkio/mantle",
+      "files_scanned": 157,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-1",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L2/messaging/L2CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 144,
+          "key_variable": "relayId",
+          "guard_mapping": "relayedMessages",
+          "key_args": [
+            "xDomainCalldata",
+            "msg.sender",
+            "block.number"
+          ],
+          "missing_fields": [
+            "destChainId / block.chainid"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L2/messaging/L2CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 92,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_target",
+            "_sender",
+            "_message",
+            "_messageNonce"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L1/local/TestMantleToken.sol",
+          "function": "mint",
+          "line": 103,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L1/delegation/DelegationManager.sol",
+          "function": "_depositInto",
+          "line": 436,
+          "key_variable": "token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "token"
+          ],
+          "missing_fields": [
+            "require(token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-1",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L1/messaging/L1CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 239,
+          "key_variable": "relayId",
+          "guard_mapping": "relayedMessages",
+          "key_args": [
+            "xDomainCalldata",
+            "msg.sender",
+            "block.number"
+          ],
+          "missing_fields": [
+            "destChainId / block.chainid"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/mantlenetworkio__mantle/packages/contracts/contracts/L1/messaging/L1CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 189,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_target",
+            "_sender",
+            "_message",
+            "_messageNonce",
+            "_proof"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Owlto Finance",
+      "repo": "https://github.com/owlto-finance/owlto-contract",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Polymer Protocol",
+      "repo": "https://github.com/polymerdao/polymer-contracts",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "dForce xDODO Bridge",
+      "repo": "https://github.com/dforce-network/LendingContractsV2",
+      "files_scanned": 54,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/dforce-network__LendingContractsV2/contracts/mock/Token.sol",
+          "function": "transferEthOut",
+          "line": 34,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/dforce-network__LendingContractsV2/contracts/msd/MSD.sol",
+          "function": "mint",
+          "line": 108,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Everclear (Connext v2)",
+      "repo": "https://github.com/connext/everclear",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Teleport MakerDAO",
+      "repo": "https://github.com/makerdao/dss-bridge",
+      "files_scanned": 0,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Nomad Bridge",
+      "repo": "https://github.com/nomad-xyz/monorepo",
+      "files_scanned": 43,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Interport Finance",
+      "repo": "https://github.com/interport-finance/interport-finance-contracts",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    }
+  ]
+}

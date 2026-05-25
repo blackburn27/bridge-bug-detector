@@ -96,6 +96,129 @@ PROTOCOLS_TIER2: list[Protocol] = [
     ),
 ]
 
+PROTOCOLS_TIER3: list[Protocol] = [
+    Protocol(
+        name="Gnosis Omnibridge",
+        repo_url="https://github.com/omni/omnibridge",
+        src_paths=["contracts"],
+        notes="AMB-based token bridge, large TVL, Merkle-proof based attestation",
+    ),
+    Protocol(
+        name="Gnosis AMB Bridge",
+        repo_url="https://github.com/omni/tokenbridge-contracts",
+        src_paths=["contracts"],
+        notes="Arbitrary Message Bridge, powers Gnosis/xDai bridges",
+    ),
+    Protocol(
+        name="pNetwork v3",
+        repo_url="https://github.com/pnetwork-association/pnetwork-v3-monorepo",
+        src_paths=["packages/ptokens-evm-contracts/contracts"],
+        notes="Had $12M exploit (2021); new v3 codebase worth checking",
+    ),
+    Protocol(
+        name="Taiko Bridge",
+        repo_url="https://github.com/taikoxyz/taiko-mono",
+        src_paths=["packages/protocol/contracts"],
+        notes="New L2 bridge, native token + ERC20 handling",
+    ),
+    Protocol(
+        name="Linea Bridge",
+        repo_url="https://github.com/Consensys/linea-contracts",
+        src_paths=["contracts"],
+        notes="Consensys ZK-rollup bridge",
+    ),
+    Protocol(
+        name="Blast Bridge",
+        repo_url="https://github.com/blast-io/blast",
+        src_paths=["blast-optimism/packages/contracts-bedrock/src"],
+        notes="L2 with native yield, custom bridge logic",
+    ),
+    Protocol(
+        name="zkLink Nova",
+        repo_url="https://github.com/zkLinkProtocol/zklink-contracts",
+        src_paths=["contracts"],
+        notes="ZK aggregation bridge, cross-chain",
+    ),
+    Protocol(
+        name="Sygma Protocol",
+        repo_url="https://github.com/sygmaprotocol/sygma-solidity",
+        src_paths=["contracts"],
+        notes="Multi-chain bridge, deposit-handler pattern",
+    ),
+    Protocol(
+        name="XY Finance",
+        repo_url="https://github.com/XY-Finance/xy-finance-contracts",
+        src_paths=["contracts"],
+        notes="Aggregator bridge, .call() forwarding pattern",
+    ),
+    Protocol(
+        name="Rango Exchange",
+        repo_url="https://github.com/rango-exchange/rango-contracts-v2",
+        src_paths=["contracts"],
+        notes="Multi-chain swap aggregator with calldata forwarding",
+    ),
+    Protocol(
+        name="Gravity Bridge",
+        repo_url="https://github.com/Gravity-Bridge/Gravity-Bridge",
+        src_paths=["solidity/contracts"],
+        notes="Cosmos ↔ Ethereum bridge; submitBatch + MerkleProof patterns",
+    ),
+    Protocol(
+        name="Kroma Bridge",
+        repo_url="https://github.com/wemade-kroma/kroma",
+        src_paths=["packages/contracts-bedrock/src"],
+        notes="OP-stack fork L2, custom bridge modifications",
+    ),
+    Protocol(
+        name="Mantle Bridge",
+        repo_url="https://github.com/mantlenetworkio/mantle",
+        src_paths=["packages/contracts/contracts"],
+        notes="L2 bridge with custom token handling",
+    ),
+    Protocol(
+        name="Owlto Finance",
+        repo_url="https://github.com/owlto-finance/owlto-contract",
+        src_paths=["contracts"],
+        notes="Smaller cross-rollup bridge",
+    ),
+    Protocol(
+        name="Polymer Protocol",
+        repo_url="https://github.com/polymerdao/polymer-contracts",
+        src_paths=["contracts"],
+        notes="IBC-based cross-chain messaging",
+    ),
+    Protocol(
+        name="dForce xDODO Bridge",
+        repo_url="https://github.com/dforce-network/LendingContractsV2",
+        src_paths=["contracts"],
+        notes="Lending + cross-chain; smaller team",
+    ),
+    Protocol(
+        name="Everclear (Connext v2)",
+        repo_url="https://github.com/connext/everclear",
+        src_paths=["packages/contracts/src"],
+        notes="Rebrand of Connext; netting-based settlement",
+    ),
+    Protocol(
+        name="Teleport MakerDAO",
+        repo_url="https://github.com/makerdao/dss-bridge",
+        src_paths=["src"],
+        notes="DAI bridge, teleport fast withdrawal pattern",
+    ),
+    Protocol(
+        name="Nomad Bridge",
+        repo_url="https://github.com/nomad-xyz/monorepo",
+        src_paths=["packages/contracts-core/contracts"],
+        notes="Exploited $190M Aug 2022 — Merkle root replace; instructive patterns",
+    ),
+    Protocol(
+        name="Interport Finance",
+        repo_url="https://github.com/interport-finance/interport-finance-contracts",
+        src_paths=["contracts"],
+        notes="Cross-chain order book bridge",
+    ),
+]
+
 PROTOCOLS: list[Protocol] = [
     Protocol(
         name="Across Protocol",

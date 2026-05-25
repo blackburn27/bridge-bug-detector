@@ -1,0 +1,1112 @@
+{
+  "total_findings": 63,
+  "protocols": [
+    {
+      "name": "Scroll Bridge Contracts",
+      "repo": "https://github.com/scroll-tech/scroll-contracts",
+      "files_scanned": 199,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/lido/L2LidoGateway.sol",
+          "function": "finalizeDepositERC20",
+          "line": 120,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/batch-bridge/L2BatchBridgeGateway.sol",
+          "function": "_transferToken",
+          "line": 229,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "token",
+            "receiver",
+            "amount"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/misc/ScrollOwner.sol",
+          "function": "_execute",
+          "line": 133,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_target",
+            "_value",
+            "_data"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/misc/Fallback.sol",
+          "function": "execute",
+          "line": 32,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_target",
+            "_data"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/validium/L1WETHGatewayValidium.sol",
+          "function": "deposit",
+          "line": 53,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/validium/L1ERC20GatewayValidium.sol",
+          "function": "depositERC20",
+          "line": 117,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/validium/L1ERC20GatewayValidium.sol",
+          "function": "depositERC20",
+          "line": 128,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/validium/L1ERC20GatewayValidium.sol",
+          "function": "_transferERC20In",
+          "line": 190,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/L1ScrollMessenger.sol",
+          "function": "sendMessage",
+          "line": 155,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/L1ScrollMessenger.sol",
+          "function": "sendMessage",
+          "line": 165,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/L1ScrollMessenger.sol",
+          "function": "relayMessageWithProof",
+          "line": 176,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_from",
+            "_to",
+            "_value",
+            "_nonce",
+            "_message",
+            "_proof"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L2/L2ScrollMessenger.sol",
+          "function": "sendMessage",
+          "line": 70,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L2/L2ScrollMessenger.sol",
+          "function": "sendMessage",
+          "line": 80,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L2/L2ScrollMessenger.sol",
+          "function": "_executeMessage",
+          "line": 143,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_from",
+            "_to",
+            "_value",
+            "_message",
+            "_xDomainCalldataHash"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L2/gateways/L2ReverseCustomERC20Gateway.sol",
+          "function": "finalizeDepositERC20",
+          "line": 63,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ETHGateway.sol",
+          "function": "depositETH",
+          "line": 58,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ETHGateway.sol",
+          "function": "depositETH",
+          "line": 63,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ETHGateway.sol",
+          "function": "depositETHAndCall",
+          "line": 72,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositERC20",
+          "line": 129,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositERC20",
+          "line": 138,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositERC20AndCall",
+          "line": 148,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositETH",
+          "line": 189,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositETH",
+          "line": 194,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1GatewayRouter.sol",
+          "function": "depositETHAndCall",
+          "line": 203,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC20Gateway.sol",
+          "function": "depositERC20",
+          "line": 32,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC20Gateway.sol",
+          "function": "depositERC20",
+          "line": 41,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC20Gateway.sol",
+          "function": "depositERC20AndCall",
+          "line": 51,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC20Gateway.sol",
+          "function": "_transferERC20In",
+          "line": 115,
+          "key_variable": "_token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "_token"
+          ],
+          "missing_fields": [
+            "require(_token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/EnforcedTxGateway.sol",
+          "function": "sendTransaction",
+          "line": 100,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/EnforcedTxGateway.sol",
+          "function": "sendTransaction",
+          "line": 127,
+          "key_variable": "_value",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_value"
+          ],
+          "missing_fields": [
+            "require(msg.value == _value) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC1155Gateway.sol",
+          "function": "depositERC1155",
+          "line": 66,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/scroll-tech__scroll-contracts/src/L1/gateways/L1ERC1155Gateway.sol",
+          "function": "depositERC1155",
+          "line": 76,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Synapse Messaging",
+      "repo": "https://github.com/synapsecns/sanguine",
+      "files_scanned": 108,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/synapsecns__sanguine/packages/contracts-rfq/test/mocks/SimpleVaultMock.sol",
+          "function": "deposit",
+          "line": 12,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/synapsecns__sanguine/packages/contracts-rfq/test/mocks/VaultMock.sol",
+          "function": "_deposit",
+          "line": 20,
+          "key_variable": "token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "token"
+          ],
+          "missing_fields": [
+            "require(token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/synapsecns__sanguine/packages/contracts-rfq/test/mocks/VaultManyArguments.sol",
+          "function": "deposit",
+          "line": 14,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/synapsecns__sanguine/packages/contracts-rfq/contracts/router/SynapseIntentRouter.sol",
+          "function": "_transferInputAsset",
+          "line": 108,
+          "key_variable": "token",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "token"
+          ],
+          "missing_fields": [
+            "require(token != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/synapsecns__sanguine/packages/contracts-rfq/contracts/legacy/rfq/FastBridgeRouterV2.sol",
+          "function": "bridge",
+          "line": 51,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Frax Ferry",
+      "repo": "https://github.com/FraxFinance/frax-standard-solidity",
+      "files_scanned": 28,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Metis Bridge",
+      "repo": "https://github.com/MetisProtocol/mvm",
+      "files_scanned": 120,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-1",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L2/messaging/L2CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 149,
+          "key_variable": "relayId",
+          "guard_mapping": "relayedMessages",
+          "key_args": [
+            "xDomainCalldata",
+            "msg.sender",
+            "block.number"
+          ],
+          "missing_fields": [
+            "destChainId / block.chainid"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L2/messaging/L2CrossDomainMessenger.sol",
+          "function": "relayMessage",
+          "line": 105,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_target",
+            "_sender",
+            "_message",
+            "_messageNonce"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1StandardBridgeLocal.sol",
+          "function": "depositERC20ByChainId",
+          "line": 234,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1StandardBridgeLocal.sol",
+          "function": "depositERC20ToByChainId",
+          "line": 254,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1StandardBridge.sol",
+          "function": "depositERC20ByChainId",
+          "line": 253,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1StandardBridge.sol",
+          "function": "depositERC20ToByChainId",
+          "line": 273,
+          "key_variable": "_amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "_amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == _amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-1",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1CrossDomainMessenger.sol",
+          "function": "relayMessageViaChainId",
+          "line": 294,
+          "key_variable": "relayId",
+          "guard_mapping": "relayedMessages",
+          "key_args": [
+            "xDomainCalldata",
+            "msg.sender",
+            "block.number"
+          ],
+          "missing_fields": [
+            "destChainId / block.chainid"
+          ]
+        },
+        {
+          "rule": "CC-6",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/MetisProtocol__mvm/packages/contracts/contracts/L1/messaging/L1CrossDomainMessenger.sol",
+          "function": "relayMessageViaChainId",
+          "line": 250,
+          "key_variable": "target",
+          "guard_mapping": "(none \u2014 no allowlist)",
+          "key_args": [
+            "_chainId",
+            "_target",
+            "_sender",
+            "_message",
+            "_messageNonce",
+            "_proof"
+          ],
+          "missing_fields": [
+            "require(allowedTargets[target]) \u2014 user-supplied call target not allowlisted"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Boba Network Bridge",
+      "repo": "https://github.com/bobanetwork/boba",
+      "files_scanned": 0,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "StarkNet L1 Bridge",
+      "repo": "https://github.com/starkware-libs/cairo-lang",
+      "files_scanned": 8,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Lisk Bridge",
+      "repo": "https://github.com/LiskHQ/lisk-contracts",
+      "files_scanned": 39,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/LiskHQ__lisk-contracts/src/L2/L2LiskToken.sol",
+          "function": "mint",
+          "line": 86,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-8",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/LiskHQ__lisk-contracts/src/L2/L2HodlerdropRedistribution.sol",
+          "function": "claimHodlerdropRedistribution",
+          "line": 229,
+          "key_variable": "proof / leaf",
+          "guard_mapping": "(none \u2014 proof not consumed)",
+          "key_args": [],
+          "missing_fields": [
+            "usedProofs[keccak256(proof, leaf)] = true \u2014 Merkle proof never marked as used, can be replayed"
+          ]
+        },
+        {
+          "rule": "CC-8",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/LiskHQ__lisk-contracts/src/L2/L2Airdrop.sol",
+          "function": "claimAirdrop",
+          "line": 277,
+          "key_variable": "proof / leaf",
+          "guard_mapping": "(none \u2014 proof not consumed)",
+          "key_args": [],
+          "missing_fields": [
+            "usedProofs[keccak256(proof, leaf)] = true \u2014 Merkle proof never marked as used, can be replayed"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Superchain WETH",
+      "repo": "https://github.com/ethereum-optimism/superchain-ops",
+      "files_scanned": 0,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Fuel Bridge",
+      "repo": "https://github.com/FuelLabs/fuel-bridge",
+      "files_scanned": 37,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV2.sol",
+          "function": "_deposit",
+          "line": 24,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV3.sol",
+          "function": "_deposit",
+          "line": 27,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV4.sol",
+          "function": "deposit",
+          "line": 228,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV4.sol",
+          "function": "depositWithData",
+          "line": 253,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV4.sol",
+          "function": "depositWithPermit",
+          "line": 334,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV4.sol",
+          "function": "depositWithDataAndPermit",
+          "line": 370,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20GatewayV4.sol",
+          "function": "_deposit",
+          "line": 406,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20Gateway.sol",
+          "function": "deposit",
+          "line": 115,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20Gateway.sol",
+          "function": "depositWithData",
+          "line": 139,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC20Gateway/FuelERC20Gateway.sol",
+          "function": "_deposit",
+          "line": 199,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC721Gateway/FuelERC721Gateway.sol",
+          "function": "_deposit",
+          "line": 194,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        },
+        {
+          "rule": "CC-9",
+          "severity": "CRITICAL",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/FuelLabs__fuel-bridge/packages/solidity-contracts/contracts/messaging/gateway/FuelERC721Gateway/FuelERC721GatewayV2.sol",
+          "function": "_deposit",
+          "line": 22,
+          "key_variable": "tokenAddress",
+          "guard_mapping": "(none \u2014 zero address unchecked)",
+          "key_args": [
+            "tokenAddress"
+          ],
+          "missing_fields": [
+            "require(tokenAddress != address(0)) \u2014 safeTransferFrom on address(0) silently succeeds, minting without receiving tokens"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Aleph Zero Bridge",
+      "repo": "https://github.com/Cardinal-Cryptography/most",
+      "files_scanned": 15,
+      "skipped": false,
+      "findings": [
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Cardinal-Cryptography__most/eth/contracts/WrappedToken.sol",
+          "function": "mint",
+          "line": 42,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        },
+        {
+          "rule": "CC-7",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Cardinal-Cryptography__most/eth/contracts/MostL2.sol",
+          "function": "sendTokenRequest",
+          "line": 270,
+          "key_variable": "amount",
+          "guard_mapping": "(none \u2014 msg.value unchecked)",
+          "key_args": [
+            "amount"
+          ],
+          "missing_fields": [
+            "require(msg.value == amount) \u2014 calldata amount not validated against actual ETH sent"
+          ]
+        },
+        {
+          "rule": "CC-10",
+          "severity": "HIGH",
+          "file": "/home/kali/.cache/bridge-bug-detector/repos/Cardinal-Cryptography__most/eth/contracts/StableSwap/StableSwapLP.sol",
+          "function": "mint",
+          "line": 25,
+          "key_variable": "onlyRelayer/onlyOwner",
+          "guard_mapping": "single-key role",
+          "key_args": [],
+          "missing_fields": [
+            "M-of-N threshold signature verification \u2014 single key compromise allows unlimited minting (Ronin $624M, Harmony $100M pattern)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Liqwid Cross-chain",
+      "repo": "https://github.com/FairBlocksTech/pob-bridge",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Hashi Bridge",
+      "repo": "https://github.com/gnosis/hashi",
+      "files_scanned": 106,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Telepathy Bridge",
+      "repo": "https://github.com/succinctlabs/telepathy-contracts",
+      "files_scanned": 50,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Electron Labs Bridge",
+      "repo": "https://github.com/Electron-Labs/ed25519-circom",
+      "files_scanned": 1,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "zkBridge",
+      "repo": "https://github.com/rdi-berkeley/zkbridge",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Volt Protocol Bridge",
+      "repo": "https://github.com/volt-protocol/ethereum-credit-guild",
+      "files_scanned": 31,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Celer IM Messaging",
+      "repo": "https://github.com/celer-network/im-examples",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Hop Protocol v2",
+      "repo": "https://github.com/hop-protocol/contracts-v2",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    },
+    {
+      "name": "Holograph Bridge",
+      "repo": "https://github.com/holographxyz/holograph-protocol",
+      "files_scanned": 0,
+      "skipped": false,
+      "findings": []
+    },
+    {
+      "name": "Router Nitro",
+      "repo": "https://github.com/router-protocol/nitro-contracts",
+      "files_scanned": 0,
+      "skipped": true,
+      "findings": []
+    }
+  ]
+}

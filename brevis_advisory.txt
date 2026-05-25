@@ -125,7 +125,7 @@ address is identical.
 
 DISCOVERY METHOD
 ----------------
-Found using Bridge Bug Detector — an open-source static analysis tool built
+Found using Bridge Bug Detector — an open-source static analysis tool I built
 to detect incomplete idempotency keys in cross-chain bridge contracts.
 
 Tool: https://github.com/blackburn27/bridge-bug-detector
